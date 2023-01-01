@@ -1,0 +1,85 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+ struct ListNode* insertNodes(struct ListNode* flag,int data);
+ int number(struct ListNode* d){
+     struct ListNode* temp = d;
+     int count=0;
+     while(temp!=NULL){
+         count++;
+         temp=temp->next;
+     }
+     return count;
+ }
+struct ListNode* oddEvenList(struct ListNode* head){
+    if(head==NULL){
+        return NULL;
+    }
+    struct ListNode* d = head;
+    int COUNT = number(d);
+   struct ListNode* newhead = malloc(sizeof(struct ListNode));
+   newhead->val = head->val;
+   newhead->next=NULL;
+   head=head->next;
+   struct ListNode* temp = head;
+   int count=2;
+   int prime = 0;
+   while(temp!=NULL){
+       int flag=0;
+       if(count>COUNT){
+           break;
+       }
+       if(count%2!=0){
+           if(temp->next==NULL){
+               struct ListNode* a = newhead;
+               struct ListNode* e = head;
+               struct ListNode* new = temp;
+               while(e->next!=temp){
+                   e=e->next;
+               }
+               e->next=NULL;
+               while(a->next!=NULL){
+                   a = a->next;
+               }
+               a->next = new;
+               new->next=NULL;
+               prime = 1;
+           }
+           else{
+           flag=1;
+           struct ListNode* prime = newhead;
+           newhead = insertNodes(prime,temp->val);
+           struct ListNode* temp3 = head;
+           while(temp3->next!=temp){
+               temp3 = temp3->next;
+           }
+           temp3->next = temp3->next->next;
+           temp = temp3->next;
+         }
+       }
+        if(flag == 0 && prime == 0)
+         temp=temp->next;
+       count++;
+    }
+    struct ListNode* b = newhead;
+    while(b->next!=NULL){
+        b=b->next;
+    }
+    b->next = head;
+    return newhead;
+}
+struct ListNode* insertNodes(struct ListNode* flag,int data){
+    struct ListNode* temp = flag;
+    while(temp->next!=NULL){
+        temp=temp->next;
+    }
+  struct ListNode* newhead = malloc(sizeof(struct ListNode));
+  newhead->val = data;
+  newhead->next=NULL;
+  temp->next = newhead;
+  return flag;   
+}
